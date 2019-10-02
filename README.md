@@ -1,0 +1,44 @@
+IDP POST SAML ASSERTION SAMPLE
+=======================
+
+This is a sample IDP for posting SAML Assertion to SP to trigger an IDP-initialed Single-Sign-On with OpenSAML2 and SpringBoot.
+
+Creating Private and Public Keys for Testing
+--------------------------------------------
+
+You will need to generate a private and public key to use for sign saml assertions. The following steps are used for creating the keys:
+```
+#create the keypair
+openssl req -new -x509 -days 3652 -nodes -out certificate.crt -keyout privateKey.pem
+
+#convert the private key to pkcs8 format
+openssl pkcs8 -topk8 -inform PEM -outform DER -in privateKey.pem -out privateKey.pkcs8 -nocrypt
+```
+
+Example
+-------
+```shell
+$ curl "http://localhost:8080/samlpost?username=a@sample.com&spEntity=urn:auth0:XX:IDP-Init-Test&spURL=https://XX.auth0.com/login/callback?connection=IDP-Init-Test"
+```
+
+Output:
+```
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>POST data</title>
+</head>
+<body onload="document.forms[0].submit()">
+<noscript>
+    <p><strong>Note:</strong> Since your browser does not support JavaScript, you must press the button below once to
+        proceed.</p>
+</noscript>
+<form method="post" action="https://XX.auth0.com/login/callback?connection=IDP-Init-Test">
+    <input type="hidden" name="SAMLResponse" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c2FtbDJwOlJlc3BvbnNlIHhtbG5zOnNhbWwycD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnByb3RvY29sIiBEZXN0aW5hdGlvbj0iaHR0cHM6Ly9YWC5hdXRoMC5jb20vbG9naW4vY2FsbGJhY2s/Y29ubmVjdGlvbj1JRFAtSW5pdC1UZXN0IiBJRD0iNGRlM2QzNzUtNmRjYy00ZDA2LThjNjUtMzZlNGFkZjY0NjNlIiBJc3N1ZUluc3RhbnQ9IjIwMTktMTAtMDJUMDI6MDk6NDguMjMwWiIgVmVyc2lvbj0iMi4wIiB4bWxuczp4cz0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiPjxzYW1sMjpJc3N1ZXIgeG1sbnM6c2FtbDI9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iPmh0dHA6Ly9pZHBwb3N0ZXhhbXBsZS5jb208L3NhbWwyOklzc3Vlcj48ZHM6U2lnbmF0dXJlIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIj48ZHM6U2lnbmVkSW5mbz48ZHM6Q2Fub25pY2FsaXphdGlvbk1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyIvPjxkczpTaWduYXR1cmVNZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjcnNhLXNoYTEiLz48ZHM6UmVmZXJlbmNlIFVSST0iIzRkZTNkMzc1LTZkY2MtNGQwNi04YzY1LTM2ZTRhZGY2NDYzZSI+PGRzOlRyYW5zZm9ybXM+PGRzOlRyYW5zZm9ybSBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyNlbnZlbG9wZWQtc2lnbmF0dXJlIi8+PGRzOlRyYW5zZm9ybSBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyI+PGVjOkluY2x1c2l2ZU5hbWVzcGFjZXMgeG1sbnM6ZWM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyIgUHJlZml4TGlzdD0ieHMiLz48L2RzOlRyYW5zZm9ybT48L2RzOlRyYW5zZm9ybXM+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyNzaGExIi8+PGRzOkRpZ2VzdFZhbHVlPmMxam1oRXBSeCtSMnBGVWZuMk00UjNOQ1FIUT08L2RzOkRpZ2VzdFZhbHVlPjwvZHM6UmVmZXJlbmNlPjwvZHM6U2lnbmVkSW5mbz48ZHM6U2lnbmF0dXJlVmFsdWU+dkJhRlVSRXJoMTlZN2FkY2NtaUhIcnJyQkluaG1WQ1VrODUwTDYvR05ROVpWZ1d1dnhzSnUwNW54cWk1amR2MTlxZTlodkhQVTJwcGQrMFMyS01TMDZPRXgvd0lyN0JJbXhUNlZvQzZPUU9uM01JOW1PUnducEJKU3NTNDUvb0dTeEpKSWNkTHNqZDhVV3FhWVNTRmI0WUNxWVlyQmxlbWlGSk0vcjhkdEVwSTBlMGhzVjNkcTYveUNHeHE5cXpNVEZGYmYwZUpkSlVnS2NGc0J4RWwvWXBWeTVFL1Z5TUhia0EzRW1mc2U5YjY4UENzSk9ZSlpwWGpJNDhlS3cwOE5POWVaVnFGMFZSelF6Z291Um5qUmdJdWpoMUR5RTZSOE15dmVhZm5OWlVMSStvcFowWDBCakhsdGFGZUhFVXV6YXRoa3BtZTBlWElWYitLcmVjVEN3PT08L2RzOlNpZ25hdHVyZVZhbHVlPjwvZHM6U2lnbmF0dXJlPjxzYW1sMnA6U3RhdHVzPjxzYW1sMnA6U3RhdHVzQ29kZSBWYWx1ZT0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnN0YXR1czpTdWNjZXNzIi8+PC9zYW1sMnA6U3RhdHVzPjxzYW1sMjpBc3NlcnRpb24geG1sbnM6c2FtbDI9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iIElEPSI0YjcyMDllNi00NzVhLTQwYjgtOGExZi0zOGZkOTkyNDcyOWIiIElzc3VlSW5zdGFudD0iMjAxOS0xMC0wMlQwMjowOTo0OC4yMzBaIiBWZXJzaW9uPSIyLjAiPjxzYW1sMjpJc3N1ZXI+aHR0cDovL2lkcHBvc3RleGFtcGxlLmNvbTwvc2FtbDI6SXNzdWVyPjxzYW1sMjpTdWJqZWN0PjxzYW1sMjpOYW1lSUQgRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6bmFtZWlkLWZvcm1hdDpwZXJzaXN0ZW50Ij51cm46YXV0aDA6WFg6SURQLUluaXQtVGVzdDwvc2FtbDI6TmFtZUlEPjxzYW1sMjpTdWJqZWN0Q29uZmlybWF0aW9uIE1ldGhvZD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmNtOmJlYXJlciI+PHNhbWwyOlN1YmplY3RDb25maXJtYXRpb25EYXRhIE5vdEJlZm9yZT0iMjAxOS0xMC0wMlQwMTo1OTo0OC4yMzBaIiBOb3RPbk9yQWZ0ZXI9IjIwMTktMTAtMDJUMDQ6MDk6NDguMjMwWiIgUmVjaXBpZW50PSJodHRwczovL1hYLmF1dGgwLmNvbS9sb2dpbi9jYWxsYmFjaz9jb25uZWN0aW9uPUlEUC1Jbml0LVRlc3QiLz48L3NhbWwyOlN1YmplY3RDb25maXJtYXRpb24+PC9zYW1sMjpTdWJqZWN0PjxzYW1sMjpDb25kaXRpb25zIE5vdEJlZm9yZT0iMjAxOS0xMC0wMlQwMTo1OTo0OC4yMzBaIiBOb3RPbk9yQWZ0ZXI9IjIwMTktMTAtMDJUMDQ6MDk6NDguMjMwWiI+PHNhbWwyOkF1ZGllbmNlUmVzdHJpY3Rpb24+PHNhbWwyOkF1ZGllbmNlPnVybjphdXRoMDpYWDpJRFAtSW5pdC1UZXN0PC9zYW1sMjpBdWRpZW5jZT48L3NhbWwyOkF1ZGllbmNlUmVzdHJpY3Rpb24+PC9zYW1sMjpDb25kaXRpb25zPjxzYW1sMjpBdXRoblN0YXRlbWVudCBBdXRobkluc3RhbnQ9IjIwMTktMTAtMDJUMDI6MDk6NDguMjMwWiIgU2Vzc2lvbk5vdE9uT3JBZnRlcj0iMjAxOS0xMC0wMlQwNDowOTo0OC4yMzBaIj48c2FtbDI6QXV0aG5Db250ZXh0PjxzYW1sMjpBdXRobkNvbnRleHRDbGFzc1JlZj51cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YWM6Y2xhc3NlczpQYXNzd29yZDwvc2FtbDI6QXV0aG5Db250ZXh0Q2xhc3NSZWY+PC9zYW1sMjpBdXRobkNvbnRleHQ+PC9zYW1sMjpBdXRoblN0YXRlbWVudD48c2FtbDI6QXR0cmlidXRlU3RhdGVtZW50PjxzYW1sMjpBdHRyaWJ1dGUgTmFtZT0idXNlcl9pZCI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPmFAc2FtcGxlLmNvbTwvc2FtbDI6QXR0cmlidXRlVmFsdWU+PC9zYW1sMjpBdHRyaWJ1dGU+PC9zYW1sMjpBdHRyaWJ1dGVTdGF0ZW1lbnQ+PC9zYW1sMjpBc3NlcnRpb24+PC9zYW1sMnA6UmVzcG9uc2U+"/>
+    <input type="hidden" name="RelayState" value=""/>
+    <noscript><input type="submit" value="Submit"/></noscript>
+</form>
+</body>
+```
