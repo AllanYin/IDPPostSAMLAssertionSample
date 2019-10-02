@@ -1,4 +1,4 @@
-package Example.saml;
+package sample.saml;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
@@ -38,7 +38,7 @@ public class CertManager {
     }
 
     public static void main(String[] args) {
-        final Credential credential = CertManager.getSigningCredential(CertManager.class.getClassLoader().getResourceAsStream("ifm.crt"), CertManager.class.getClassLoader().getResourceAsStream("ifm.pkcs8"));
+        final Credential credential = CertManager.getSigningCredential(CertManager.class.getClassLoader().getResourceAsStream("certificate.crt"), CertManager.class.getClassLoader().getResourceAsStream("privateKey.pkcs8"));
         System.out.println(credential);
     }
 }

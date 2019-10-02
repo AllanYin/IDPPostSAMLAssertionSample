@@ -1,4 +1,4 @@
-package Example.saml;
+package sample.saml;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -233,10 +233,10 @@ public class SAMLAssertionBuilder {
     }
 
     public static void main(String[] args) {
-        Credential credential = CertManager.getSigningCredential(CertManager.class.getClassLoader().getResourceAsStream("ifm.crt"), CertManager.class.getClassLoader().getResourceAsStream("ifm.pkcs8"));
+        Credential credential = CertManager.getSigningCredential(CertManager.class.getClassLoader().getResourceAsStream("certificate.crt"), CertManager.class.getClassLoader().getResourceAsStream("privateKey.pkcs8"));
 
-        SAMLAssertionBuilder builder = new SAMLAssertionBuilder("https://1", credential, "2", "https://2");
-        Response response = builder.buildResponse("ayin@infomedia.com.au");
+        SAMLAssertionBuilder builder = new SAMLAssertionBuilder("https://sample.com", credential, "2", "https://2");
+        Response response = builder.buildResponse("a@sample.com");
 
         System.out.println(stringify(response));
         System.out.println(base64Encode(stringify(response)));

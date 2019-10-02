@@ -1,7 +1,7 @@
-package Example;
+package sample;
 
-import Example.saml.CertManager;
-import Example.saml.SAMLAssertionBuilder;
+import sample.saml.CertManager;
+import sample.saml.SAMLAssertionBuilder;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.LogManager;
@@ -17,8 +17,8 @@ import java.net.URLDecoder;
 public class RootController {
     private static final Logger log = LogManager.getLogger(RootController.class);
 
-    private static final String PUBLICK_KEY_FILE_NAME = "ifm.crt";
-    private static final String PRIVATE_KEY_FILE_NAME = "ifm.pkcs8";
+    private static final String PUBLICK_KEY_FILE_NAME = "certificate.crt";
+    private static final String PRIVATE_KEY_FILE_NAME = "privateKey.pkcs8";
     private static final String SAML_POST_TEMPLATE = "SAMLPost.html";
 
     private static final Credential CREDENTIAL = CertManager.getSigningCredential(RootController.class.getClassLoader().getResourceAsStream(PUBLICK_KEY_FILE_NAME), RootController.class.getClassLoader().getResourceAsStream(PRIVATE_KEY_FILE_NAME));
