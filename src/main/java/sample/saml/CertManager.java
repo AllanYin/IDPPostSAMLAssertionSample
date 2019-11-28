@@ -16,6 +16,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 public class CertManager {
     private static final Logger log = LogManager.getLogger(CertManager.class);
 
+    // read public and private keys
     public static Credential getSigningCredential(InputStream publicKeyStream, InputStream privateKeyStream) {
         try {
             // create public key (cert) portion of credential

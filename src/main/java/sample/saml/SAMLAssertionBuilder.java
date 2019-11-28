@@ -49,6 +49,12 @@ public class SAMLAssertionBuilder {
     private String spEntity;
     private String spURL;
 
+    /**
+     * @param idpURL     your system authentication endpint
+     * @param credential Readed private and public keys
+     * @param spEntity   other system name
+     * @param spURL      other system authentication endpint
+     */
     public SAMLAssertionBuilder(String idpURL, Credential credential, String spEntity, String spURL) {
         this.idpURL = idpURL;
         this.credential = credential;
@@ -57,6 +63,12 @@ public class SAMLAssertionBuilder {
         this.spURL = spURL;
     }
 
+    /**
+     * Build the authentication statement for a user
+     *
+     * @param username authentication statement will be build for this username
+     * @return
+     */
     public Response buildResponse(final String username) {
         ResponseBuilder responseBuilder = new ResponseBuilder();
         Response response = responseBuilder.buildObject();
